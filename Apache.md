@@ -88,6 +88,7 @@ expose_php = Off
 extension_dir = "c:/apms/php-8.0.0-Win32-vs16-x64/ext"
 upload_max_filesize = 2000M
 extension=curl
+extension=imap
 extension=fileinfo
 extension=gd
 extension=mbstring
