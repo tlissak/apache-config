@@ -43,16 +43,19 @@ mysql -u root -p
 
 ```
 CREATE USER 'USERNAME'@'%' IDENTIFIED BY 'password1';
+```
 read the user table :
+```
 SELECT User FROM mysql.user; 
+```
 Garante privilages :
+```
 GRANT ALL PRIVILEGES ON 'YOUR_DATABASE'.* TO 'USERNAME'@'%' IDENTIFIED BY 'password1';
-
 FLUSH PRIVILEGES;
 ```
 check the user privilages :
 ```
-SHOW GRANTS FOR 'YOUR_DATABASE'@'%';
+SHOW GRANTS FOR 'USER_NAME'@'%';
 ```
 
 Reset root password 
