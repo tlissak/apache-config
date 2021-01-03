@@ -7,6 +7,8 @@ run
 ```
 \bin\mysql_install_db.exe (it will init the data folder)
 ```
+it will create default my.ini at the data folder 
+
 installed service by using cmd.exe with administrator privileges
 ```
 mysqld --install "apms-mysql"
@@ -17,8 +19,9 @@ my.ini > should have section with
 [apms-mysql]
 port		= 1336
 socket		= /tmp/mysql.sock
-start the service
 ```
+start the service
+
 
 change the root password :
 go to \bin folder and type 
@@ -51,6 +54,9 @@ check the user privilages :
 ```
 SHOW GRANTS FOR 'YOUR_DATABASE'@'%';
 ```
+
+Reset root password 
+-----
 
 if you forgot your root password create an init-root-password.sql file and place it into the db folder 
 ```
