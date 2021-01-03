@@ -16,12 +16,15 @@ Copy httpd-vhosts.conf from extra into /conf folder
 
 if you get unable to load curl 
 add this line to httpd.conf file :
+```
 LoadFile "C:\apms\php-8.0.0-Win32-vs16-x64\libssh2.dll"
+```
 
 if you get unable to load pdo_sqlite 
 add this line to httpd.conf file :
+```
 LoadFile "C:\apms\php-8.0.0-Win32-vs16-x64\libsqlite3.dll"
-
+```
 
 the fils should look like :
 
