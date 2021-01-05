@@ -51,3 +51,9 @@ make
 sudo make install
 sudo modprobe 8812au
 ```
+
+
+If boot menu is lost repair with
+```
+sudo update-grub
+```
