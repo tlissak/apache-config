@@ -2,7 +2,7 @@
 
 Some of my settings for differents applications 
 
-- [Apache + PHP](Apache.md)
-- [Mysql](MySQL.md)
-- [Ubuntu](Ubuntu.md)
-- [Windows Server](WindowsServer.md)
+- [Apache + PHP](doc/Apache.md)
+- [Mysql](doc/MySQL.md)
+- [Ubuntu](doc/Ubuntu.md)
+- [Windows Server](doc/WindowsServer.md)
