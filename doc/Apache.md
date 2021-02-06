@@ -32,7 +32,7 @@ conf/httpd-apms.conf
 ---
 ```
 #httpd.exe -k install -n "apms-apache-0" -f "conf/httpd-apms.conf"
-Define SRVROOT "C:\apms\httpd-2.4.46-win64-VS16\Apache24"
+#Define SRVROOT "C:\apms\httpd-2.4.46-win64-VS16\Apache24"
 Define VHOSTS "conf/httpd-vhosts.conf"
 Define PHPBIN "C:\apms\php-8.0.0-Win32-vs16-x64\php8apache2_4"
 Define PHPINI "C:/apms/php-8.0.0-Win32-vs16-x64"
@@ -40,7 +40,7 @@ Define PHPINI "C:/apms/php-8.0.0-Win32-vs16-x64"
 ServerSignature Off
 ServerTokens ProductOnly
 
-ServerRoot "${SRVROOT}"
+#ServerRoot "${SRVROOT}"
 
 Listen 80
 Listen 443
