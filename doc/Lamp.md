@@ -3,8 +3,9 @@
     sudo apt-get update 
     sudo apt-get upgrade
 
-## ssl 
+## ssl & curl
     sudo apt-get install openssl
+    sudo apt-get install curl
 
 ## get / save certificate
 
@@ -17,6 +18,9 @@ sudo chmod 600 /etc/ssl/private/vsftpd.cert.*
 
     sudo apt-get install apache2
     a2enmod ssl imap fileinfo gd mbstring openssl pdo_mysql pdo_sqlite soap
+    sudo apt-get install php-curl
+    or
+    sudo apt-get install php8.0-curl
     a2enmod curl
 
 ## add vhosts : 
@@ -38,7 +42,7 @@ sudo chmod 600 /etc/ssl/private/vsftpd.cert.*
   
     sudo systemctl restart apache2
   
-##  install vsftpd
+##  install vsftpd https://doc.ubuntu-fr.org/vsftpd
   
     sudo apt install vsftpd
   
@@ -51,7 +55,7 @@ sudo chmod 600 /etc/ssl/private/vsftpd.cert.*
     sudo systemctl start vsftpd
     sudo systemctl enable vsftpd
   
-##  open ports firewall
+##  open ports firewall 
   
     sudo ufw allow 2121/tcp
     sudo ufw status
@@ -68,7 +72,6 @@ ssl_enable=YES
 allow_anon_ssl=NO
 force_local_data_ssl=NO
 force_local_logins_ssl=YES
-# require_ssl_reuse=NO # Certains clients FTP nécessitent cette ligne
 
 ssl_tlsv1=YES
 ssl_sslv2=YES
@@ -79,4 +82,47 @@ rsa_private_key_file=/etc/ssl/private/vsftpd.key.pem
    
  ## then reload   
     sudo service vsftpd reload
+    
+    
+## mariadb https://doc.ubuntu-fr.org/mariadb or https://doc.ubuntu-fr.org/mysql
+
+
+sudo apt install mariadb-server
+
+sudo systemctl start mariadb
+ /etc/mysql/mysql.conf.d/mysqld.cnf :
+
+firewall open port 
+
+
+## postfix as relay https://www.linode.com/docs/guides/postfix-smtp-debian7/
+
+sudo apt-get install libdb5.1 postfix procmail sasl2-bin
+
+    /etc/postfix/sasl_passwd
+
+    [smtp.mandrillapp.com]:587 USERNAME:API_KEY
+    [smtp.gmail.com]:587 username@gmail.com:password
    
+    sudo postmap /etc/postfix/sasl_passwd
+   
+    sudo chown root:root /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
+    sudo chmod 0600 /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
+ 
+    /etc/postfix/main.cf
+ 
+    relayhost = [smtp.gmail.com]:587
+    smtp_sasl_auth_enable = yes
+    smtp_sasl_security_options = noanonymous
+    smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+    smtp_use_tls = yes
+    smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+
+     sudo service postfix restart
+ 
+## Email testing
+
+        sudo apt-get install mailutils  
+        mail -s "Test subject" recipient@domain.com
+        echo  “body of your email” | mail -s “This is a subject” - a “From: you@example.com” recipient@elsewhere.com
+        sudo service postfix restart
