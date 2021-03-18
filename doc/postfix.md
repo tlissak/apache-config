@@ -1,25 +1,32 @@
 
 ## postfix as relay https://www.linode.com/docs/guides/postfix-smtp-debian7/
+
+be root :
+
+```
+sudo su
+```
+
 ```
 sudo apt-get install libdb5.1 postfix procmail sasl2-bin
 ```
 Choose to install postfix as internet server
 ```
-sudo nano /etc/postfix/sasl_passwd
+nano /etc/postfix/sasl_passwd
 ```
 ```
 [smtp-relay.sendinblue.com]:587 USERNAME:API_KEY
 [smtp.gmail.com]:587 username@gmail.com:password
 ```
 ```
-sudo postmap /etc/postfix/sasl_passwd
+postmap /etc/postfix/sasl_passwd
 ```
 ```
-sudo chown root:root /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
-sudo chmod 0600 /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
+chown root:root /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
+chmod 0600 /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
 ```
 ```
-sudo nano /etc/postfix/main.cf
+nano /etc/postfix/main.cf
 ```
 
 ```
@@ -33,7 +40,7 @@ smtp_use_tls = yes
 ```
 
 ```
-sudo service postfix restart
+service postfix restart
 ```
 
 ## Email testing
@@ -43,5 +50,5 @@ echo  "body of your email" | mail -s "This is a subject" -a "From: glasman.fr@gm
 ```
 debug :
 ```
-sudo nano /var/log/mail.log
+nano /var/log/mail.log
 ```     
