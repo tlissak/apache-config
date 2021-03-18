@@ -156,8 +156,8 @@ sudo apt-get install libdb5.1 postfix procmail sasl2-bin
 ## Email testing
 
         sudo apt-get install mailutils  
-        mail -s "Test subject" recipient@domain.com
-        echo  “body of your email” | mail -s “This is a subject” - a “From: you@example.com” recipient@elsewhere.com
+        mail -s "Test subject" tlissak@gmail.com
+        echo  "body of your email" | mail -s "This is a subject" -a "From: glasman@gmail.com" tlisak@gmail.com
         sudo service postfix restart
         
         
