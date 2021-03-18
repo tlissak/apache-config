@@ -6,4 +6,5 @@ Some of my settings for differents applications
 - [Mysql](doc/MySQL.md)
 - [Ubuntu](doc/Ubuntu.md)
 - [Windows Server](doc/WindowsServer.md)
-- [LAMP Debian](doc/Lamp.md)
+
+- [Linux Apache PHP postfix vsftpd](doc/Lamp.md)
