@@ -50,6 +50,10 @@ sudo chmod 600 /etc/ssl/private/vsftpd.cert.*
   
     sudo apt install vsftpd
   
+  
+# copy settings
+mv /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf.default
+  
 ##  add user
   
     
@@ -95,9 +99,13 @@ pasv_min_port=13450
 pasv_max_port=13500
 pasv_addr_resolve=YES
 
+
+
    
  ## then reload   
     sudo service vsftpd reload
+    
+    sudo  chmod 777 /var/www
    
    
    iptables -t filter -A INPUT -p tcp --dport 13450:13500 -j ACCEPT
