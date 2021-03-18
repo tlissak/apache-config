@@ -132,6 +132,8 @@ sudo ufw allow 443/tcp
 
 sudo apt-get install libdb5.1 postfix procmail sasl2-bin
 
+install postfix as internet server
+
     /etc/postfix/sasl_passwd
 
     [smtp.mandrillapp.com]:587 USERNAME:API_KEY
@@ -142,7 +144,7 @@ sudo apt-get install libdb5.1 postfix procmail sasl2-bin
     sudo chown root:root /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
     sudo chmod 0600 /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
  
-    /etc/postfix/main.cf
+    sudo nano /etc/postfix/main.cf
  
     relayhost = [smtp.gmail.com]:587
     smtp_sasl_auth_enable = yes
@@ -156,11 +158,11 @@ sudo apt-get install libdb5.1 postfix procmail sasl2-bin
 ## Email testing
 
         sudo apt-get install mailutils  
-        mail -s "Test subject" tlissak@gmail.com
-        echo  "body of your email" | mail -s "This is a subject" -a "From: glasman@gmail.com" tlisak@gmail.com
+        
+        echo  "body of your email" | mail -s "This is a subject" -a "From: glasman.fr@gmail.com" tlisak@gmail.com
         sudo service postfix restart
         
-        
+        sudo nano /var/log/mail.log
         
 aws ports :
 
