@@ -22,8 +22,8 @@ sudo chmod 600 /etc/ssl/private/vsftpd.cert.*
 ```
 
 
-##[Install postfix](postfix.md)
-##[Install vsftpd](postfix.md)
+## [Install postfix](postfix.md)
+## [Install vsftpd](vsftpd.md)
 
 ## install apache
 ```
