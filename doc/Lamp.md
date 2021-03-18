@@ -7,6 +7,10 @@
     sudo apt-get install openssl
     sudo apt-get install curl
 
+#list of listinig ports 
+
+sudo lsof -i -P -n
+
 ## get / save certificate
 
   mkdir /etc/ca/
@@ -48,8 +52,13 @@ sudo chmod 600 /etc/ssl/private/vsftpd.cert.*
   
 ##  add user
   
-    sudo useradd --system ftp
-
+    
+    sudo groupadd sftp_users
+    useradd MY_USER
+    passwd MY_USER
+    usermod -g sftp_users MY_USER
+    usermod -d /var/www MY_USER
+    
 ##  restart vsftpd
   
     sudo systemctl start vsftpd
@@ -65,24 +74,34 @@ sudo chmod 600 /etc/ssl/private/vsftpd.cert.*
   
      sudo openssl req -new -x509 -days 365 -nodes -out /etc/ssl/private/vsftpd.cert.pem -keyout /etc/ssl/private/vsftpd.key.pem
      
-    sudo vim /etc/vsftpd.conf
+    sudo nano /etc/vsftpd.conf
     
+listen=YES
 listen_port=2121   
+
+local_enable=YES
+
+
+rsa_cert_file=/etc/ssl/private/vsftpd.cert.pem
+rsa_private_key_file=/etc/ssl/private/vsftpd.key.pem
 ssl_enable=YES
 allow_anon_ssl=NO
 force_local_data_ssl=NO
 force_local_logins_ssl=YES
-
 ssl_tlsv1=YES
-ssl_sslv2=YES
-ssl_sslv3=YES
 
-rsa_cert_file=/etc/ssl/private/vsftpd.cert.pem
-rsa_private_key_file=/etc/ssl/private/vsftpd.key.pem
+pasv_enable=YES
+pasv_min_port=13450
+pasv_max_port=13500
+pasv_addr_resolve=YES
+
    
  ## then reload   
     sudo service vsftpd reload
-    
+   
+   
+   iptables -t filter -A INPUT -p tcp --dport 13450:13500 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 13450:13500 -j ACCEPT
     
 ## mariadb https://doc.ubuntu-fr.org/mariadb or https://doc.ubuntu-fr.org/mysql
 
@@ -92,7 +111,13 @@ sudo apt install mariadb-server
 sudo systemctl start mariadb
  /etc/mysql/mysql.conf.d/mysqld.cnf :
 
-firewall open port 
+## firewall open port 
+
+sudo ufw allow 21/tcp
+sudo ufw allow 587/tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 22/tcp
+sudo ufw allow 443/tcp
 
 
 ## postfix as relay https://www.linode.com/docs/guides/postfix-smtp-debian7/
@@ -126,3 +151,16 @@ sudo apt-get install libdb5.1 postfix procmail sasl2-bin
         mail -s "Test subject" recipient@domain.com
         echo  “body of your email” | mail -s “This is a subject” - a “From: you@example.com” recipient@elsewhere.com
         sudo service postfix restart
+        
+        
+        
+aws ports :
+
+Personnalisé	TCP	20
+SSH	TCP	22
+HTTP	TCP	80
+HTTPS	TCP	443
+Personnalisé	TCP	2121
+Personnalisé	TCP	13450-13500
+
+
