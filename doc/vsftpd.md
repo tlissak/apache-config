@@ -33,6 +33,11 @@ sudo openssl req -new -x509 -days 365 -nodes -out /etc/ssl/private/vsftpd.cert.p
 ```
 sudo nano /etc/vsftpd.conf
 ```
+
+important comment this :
+```
+#listen_ipv6
+```
 ```
 listen=YES
 listen_port=2121   
@@ -60,7 +65,7 @@ sudo service vsftpd reload
 ```
 Give write permissions to folder 
 ```
-sudo chown 666 testuser:testuser /var/www 
+sudo chown 666 testuser:sftp_users /var/www 
 ```
 
 ```
