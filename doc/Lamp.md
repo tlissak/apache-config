@@ -1,30 +1,16 @@
+## start as super user 
+```
+sudo su
+```
+
 ## update system
 ```
-sudo apt-get update 
-sudo apt-get upgrade
+apt-get update && upgrade
 ```
-## ssl & curl
+## install some dependencies
 ```
-sudo apt-get install openssl
-sudo apt-get install curl
+apt-get install openssl curl git-all zip
 ```
-#list of listinig ports 
-```
-sudo lsof -i -P -n
-```
-## get / save certificate
-```
-mkdir /etc/ca/
-``` 
-```
-sudo chown root:root /etc/ssl/private/vsftpd.cert.*
-sudo chmod 600 /etc/ssl/private/vsftpd.cert.*
-```
-
-
-## [Install postfix](postfix.md)
-## [Install vsftpd](vsftpd.md)
-
 ## install apache
 ```
 sudo apt-get install apache2
@@ -34,45 +20,59 @@ or
 sudo apt-get install php8.0-curl
 a2enmod curl
 ```
-## add vhosts : 
+## ssl / vhosts : 
+ssl install point to current certificate
 ```
-a2ensite default-ssl
-```
-## new site : 
-```
-sudo /etc/init.d/apache2 restart
+sudo nano /etc/apache2/sites-available/default-ssl.conf
+sudo a2ensite default-ssl
+a2enmod rewrite 
 ```  
-    
+
 ##  install php8
 ```
 sudo apt install software-properties-common
 sudo add-apt-repository ppa:ondrej/php
 sudo apt install php8.0 libapache2-mod-php8.0
-```
-##  restart apache
-```
+sudo apt install php-soap php-imap php-fpm php-json php-pdo php-mysql php-zip php-gd  php-mbstring php-curl php-xml 
 sudo systemctl restart apache2
+
 ```
 
-## firewall open port 
+## get composer 
+no root or sudo
 ```
-sudo ufw allow 21/tcp
-sudo ufw allow 587/tcp
-sudo ufw allow 80/tcp
-sudo ufw allow 22/tcp
-sudo ufw allow 443/tcp
-```
-
-aws open ports :
-```
-Personnalisé	TCP	20
-SSH	TCP	22
-HTTP	TCP	80
-HTTPS	TCP	443
-Personnalisé	TCP	2121
-Personnalisé	TCP	13450-13500
+wget -O composer-setup.php https://getcomposer.org/installer
+sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+sudo chown -R $USER ~/.composer/
+composer update --ignore-platform-reqs
 ```
 
+if composer update failed with  
+```
+file_put_contents(./composer.lock): Failed to open stream: Permission denied
+```
+do 
+```
+sudo chmod 0777 ./composer.lock
+```
+
+## aws open ports : 20 22 80 443 2121 13450-13500
+
+
+## [Install vsftpd](vsftpd.md)
+
+## [Install postfix](postfix.md)
+
+## debug 
+
+list of listinig ports 
+```
+sudo lsof -i -P -n
+```
+directory permission
+```
+ls -ld /var/www/html/
+```
 
 
 
