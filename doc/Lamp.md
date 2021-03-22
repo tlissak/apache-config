@@ -1,3 +1,9 @@
+
+## [Install vsftpd](vsftpd.md)
+
+## [Install postfix](postfix.md)
+
+
 ## start as super user 
 ```
 sudo su
@@ -26,6 +32,14 @@ ssl install point to current certificate
 sudo nano /etc/apache2/sites-available/default-ssl.conf
 sudo a2ensite default-ssl
 a2enmod rewrite 
+
+```  
+
+## Firewall at aws open ports : 20 22 80 443 2121 13450-13500 then run
+
+```  
+iptables -t filter -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --dport 443 -j ACCEPT
 ```  
 
 ##  install php8
@@ -33,6 +47,7 @@ a2enmod rewrite
 sudo apt install software-properties-common
 sudo add-apt-repository ppa:ondrej/php
 sudo apt install php8.0 libapache2-mod-php8.0
+
 sudo apt install php-soap php-imap php-fpm php-json php-pdo php-mysql php-zip php-gd  php-mbstring php-curl php-xml 
 sudo systemctl restart apache2
 
@@ -56,12 +71,6 @@ do
 sudo chmod 0777 ./composer.lock
 ```
 
-## aws open ports : 20 22 80 443 2121 13450-13500
-
-
-## [Install vsftpd](vsftpd.md)
-
-## [Install postfix](postfix.md)
 
 ## debug 
 
@@ -69,10 +78,10 @@ list of listinig ports
 ```
 sudo lsof -i -P -n
 ```
-directory permission
-```
-ls -ld /var/www/html/
-```
+
+
+
+
 
 
 
