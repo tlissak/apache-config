@@ -1,12 +1,6 @@
 
 ## postfix as relay https://www.linode.com/docs/guides/postfix-smtp-debian7/
 
-be root :
-
-```
-sudo su
-```
-
 ```
 sudo apt-get install libdb5.1 postfix procmail sasl2-bin
 ```
@@ -51,4 +45,66 @@ echo  "body of your email" | mail -s "This is a subject" -a "From: glasman.fr@gm
 debug :
 ```
 nano /var/log/mail.log
-```     
+```
+
+
+Example of main.cf
+
+```
+
+listen=YES
+vsftpd_log_file=/var/log/vsftpd.log
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+dirmessage_enable=YES
+use_localtime=YES
+xferlog_enable=YES
+connect_from_port_20=YES
+chroot_local_user=YES
+secure_chroot_dir=/var/run/vsftpd/empty
+pam_service_name=vsftpd
+rsa_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+rsa_private_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+ssl_enable=YES
+listen_port=2121
+allow_anon_ssl=NO
+force_local_data_ssl=NO
+force_local_logins_ssl=YES
+ssl_tlsv1=YES
+pasv_enable=YES
+pasv_min_port=13450
+pasv_max_port=13500
+pasv_addr_resolve=YES
+allow_writeable_chroot=YES
+admin@ip-172-26-14-64:/etc/php/8.0/apache2$ grep -v -E "(#|^$)" /etc/postfix/main.cf
+smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
+biff = no
+append_dot_mydomain = no
+readme_directory = no
+compatibility_level = 2
+smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_use_tls=yes
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+myhostname = ip-172-26-14-64.eu-west-3.compute.internal
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+myorigin = /etc/mailname
+mydestination = $myhostname, ip-172-26-14-64.eu-west-3.compute.internal, localhost.eu-west-3.compute.internal, , localhost
+relayhost = [smtp-relay.sendinblue.com]:587
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mailbox_command = procmail -a "$EXTENSION"
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+inet_protocols = all
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+smtp_sasl_password_maps=hash:/etc/postfix/sasl_passwd
+smtp_sasl_auth_enable = yes
+smtp_sasl_mechanism_filter = plain, login
+smtp_sasl_security_options = noanonymous
+smtp_use_tls = yes
+```
