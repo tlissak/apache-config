@@ -81,14 +81,24 @@ httpd-vhosts.conf
 php.ini
 ---
 ```
+
+max_input_vars = 20000
+max_input_time=-1
+max_execution_time=9000
 display_errors = On
 display_startup_errors = On
 short_open_tag = On
 expose_php = Off
+post_max_size = 500M
 extension_dir = "c:/apms/php-8.0.0-Win32-vs16-x64/ext"
 upload_max_filesize = 2000M
+
+date.timezone=Europe/Paris
+
 extension=curl
+extension=intl
 extension=imap
+extension=ftp
 extension=fileinfo
 extension=gd
 extension=mbstring
@@ -96,6 +106,8 @@ extension=openssl
 extension=pdo_mysql
 extension=pdo_sqlite
 extension=soap
+
+
 ```
 
 
