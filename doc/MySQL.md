@@ -26,7 +26,7 @@ start the service
 change the root password :
 go to \bin folder and type 
 ```
-mysql -u root
+mysql -u root -P 1336
 FLUSH PRIVILEGES;
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('new_password');
 ```
