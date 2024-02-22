@@ -16,10 +16,10 @@ http {
 	
 	server {
         listen       80;		
-        server_name  g.lissak.fr www.g.lissak.fr;
+        server_name  yourservername.com www.yourservername.com;
 
 		location / {
-			proxy_pass http://g.lissak.fr:808;
+			proxy_pass http://localhost:8888;
 			proxy_set_header X-Real-IP $remote_addr;
 			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 		}
@@ -31,7 +31,7 @@ http {
 		
 		http2  on;
 		
-        server_name  g.lissak.fr www.g.lissak.fr;
+        server_name  yourservername.com www.yourservername.com;
 
 		
 		    ssl_certificate "C:/apms/httpd-2.4.54-o305-x64-vs17/Apache24/conf/ssl/certificate_and_bundle.crt";		
