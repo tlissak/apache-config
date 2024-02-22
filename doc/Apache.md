@@ -5,6 +5,8 @@ Download PHP from :  [PHP windows](https://windows.php.net/download) **  PHP is 
 Extract Apache and PHP
 
 Apache and PHP should have the Same VC15 / VS16 versions
+** edit : VS17 now is retro compatible with VS15 and VS16
+you can upgrade only the apache server without touching php installation 
 
 ---
 
@@ -110,6 +112,8 @@ extension=soap
 
 ```
 
+Dont Forget to install Composer 
+---
 
 
 Httpd Service installation
@@ -127,6 +131,19 @@ sc delete "Apms-Apache-1"
 important !
 create new firewall rule for programme and allow httpd in bin folder
 
+apache hause  has mod_antiloris download and put to module folder 
+defaults setting work perfectly :
 
-Dont Forget to install Composer 
----
+	  LoadModule antiloris_module modules/mod_antiloris.so
+	  <IfModule antiloris_module>
+	      IPOtherLimit 10
+	      IPReadLimit  10
+	      IPWriteLimit 10
+		  
+		  #Act as white list : 
+	      LocalIPs     127.0.0.1 ::1
+	  </IfModule>
+
+  
+more config information :
+https://github.com/Deltik/mod_antiloris
