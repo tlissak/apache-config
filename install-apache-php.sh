@@ -10,6 +10,8 @@
 # In case of any errors just re-run the script. Nothing will be re-installed except for the packages with errors.
 #######################################
 
+
+
 # COLORS
 color() {
   Color_Off='\033[0m'       # Text Reset
@@ -91,17 +93,33 @@ checkApacheConfig() {
 
 }
 installPHP() {
+
+
+	echo $PHPVER
+
+
 	# PHP and common Modules
-	msg_info "Installing PHP and common Modules.. "
-	apt-get -qy install php php-common libapache2-mod-php php-curl php-dom php-ftp php-pdo php-pdo-mysql php-fileinfo php-simplexml php-imap php-dev php-gd php-imagick php-intl php-ps php-json php-mbstring php-mysql php-pear php-pspell php-xml php-zip php-xsl php-mcrypt php-soap
+	msg_info "Installing PHP"
+
+	read -e -p "PHP Version:" -i "8.0" PHPVER
+
+	#echo $PHPVER
+
+	apt-get -qy install php$PHPVER php-common libapache2-mod-php
 	msg_ok "PHP installed"
+
+	msg_info "Installing common Modules.. "
+	apt-get -qy install php-curl php-dom php-ftp php-pdo php-pdo-mysql php-fileinfo php-simplexml php-imap php-dev php-gd php-imagick php-intl php-ps php-json php-mbstring php-mysql php-pear php-pspell php-xml php-zip php-xsl php-mcrypt php-soap
+	#dpkg --configure -a
+	#dpkg --remove --force-remove-reinstreq gsfonts
+	msg_ok "common Modules installed"
 }
 
 enableMods() {
 	# Enable mod_rewrite,  .htaccess files
 	msg_info "Enabling Modules.."
-
-	a2enmod curl rewrite ssl imap fileinfo gd mbstring openssl pdo_mysql pdo_sqlite soap 	
+	a2enmod rewrite ssl	
+	#a2enmod curl rewrite ssl imap fileinfo gd mbstring openssl pdo_mysql pdo_sqlite soap 
 	phpenmod mbstring mcrypt
 }
 
@@ -117,23 +135,51 @@ restartApache() {
 	service apache2 restart
 }
 
-installPhpFromRepo() {
-	apt-get install software-properties-common
-	add-apt-repository ppa:ondrej/php
-	apt-get install php8.0 libapache2-mod-php8.0
+apacheloadCostumPhpIni(){
 
-	apt-get install php-openssl php-fileinfo php-pdo_sqlite php-ftp php-soap php-imap php-fpm php-intl php-json php-mysql php-zip php-gd php-mbstring php-curl php-xml 
+	
+	upload_max_filesize=240M
+	post_max_size=50M
+	max_execution_time=100
+	max_input_time=223
+
+	for key in upload_max_filesize post_max_size max_execution_time max_input_time
+	do
+	sed -i "s/^\($key\).*/\1 $(eval echo = \${$key})/" php.ini
+	done
+
+export PHP_INI_PATH=etc/php/8.1/fpm/php.ini
+sed -i 's/max_execution_time = 30/max_execution_time = 60/' $PHP_INI_PATH
+sed -i 's/memory_limit = 128M/memory_limit = 256M/' $PHP_INI_PATH
+
+
+	mkdir /etc/php/web1/
+
+	cp /etc/php/8.1/apache2/php.ini /etc/php/web1/
+}
+
+installPhpFromRepo() {
+	apt-get -qy install software-properties-common
+	add-apt-repository ppa:ondrej/php
+	apt-get -qy install php8.0 libapache2-mod-php8.0
+
+	apt-get -qy install php-fileinfo php-pdo-sqlite php-ftp php-soap php-imap php-fpm php-intl php-json php-mysql php-pdo-mysql php-zip php-gd php-mbstring php-curl php-xml 
 	#edit file : nano /etc/php/8.0/apache2/php-override.ini
-	#max_input_vars = 20000
-	#max_input_time=-1
-	#max_execution_time=9000
+
+	
+	
+	
+
+#Already
 	#display_errors = On
 	#display_startup_errors = On
 	#short_open_tag = On
+	#max_input_vars = 20000
 	#expose_php = Off
 	#post_max_size = 500M
 	#upload_max_filesize = 2000M
 	#date.timezone=Europe/Paris	
+
 	systemctl restart apache2
 
 }
