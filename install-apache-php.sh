@@ -93,7 +93,7 @@ checkApacheConfig() {
 installPHP() {
 	# PHP and common Modules
 	msg_info "Installing PHP and common Modules.. "
-	apt-get -qy install php php-common libapache2-mod-php php-curl php-dev php-gd php-gettext php-imagick php-intl php-ps php-mbstring php-mysql php-pear php-pspell php-recode php-xml php-zip php-xsl php-mcrypt php-soap
+	apt-get -qy install php php-common libapache2-mod-php php-curl php-dom php-ftp php-pdo php-pdo_mysql php-fileinfo php-simplexml php-openssl php-imap php-dev php-gd php-imagick php-intl php-ps php-json php-mbstring php-mysql php-pear php-pspell php-xml php-zip php-xsl php-mcrypt php-soap
 	msg_ok "PHP installed"
 }
 
