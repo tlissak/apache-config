@@ -158,19 +158,38 @@ sed -i 's/memory_limit = 128M/memory_limit = 256M/' $PHP_INI_PATH
 	cp /etc/php/8.1/apache2/php.ini /etc/php/web1/
 }
 
-installPhpFromRepo() {
-	apt-get -qy install software-properties-common
-	add-apt-repository ppa:ondrej/php
-	apt-get -qy install php8.0 libapache2-mod-php8.0
+installPhpSelectVersion() {
 
-	apt-get -qy install php-fileinfo php-pdo-sqlite php-ftp php-soap php-imap php-fpm php-intl php-json php-mysql php-pdo-mysql php-zip php-gd php-mbstring php-curl php-xml 
+	read -e -p "PHP Version:" -i "8.0" PHPVER
+
+	apt -y install apt-transport-https lsb-release ca-certificates wget -y
+	wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg 
+	sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+	apt -y update
+
+	apt-get -y install php$PHPVER php$PHPVER-common
+
+	apt-get -qy install php$PHPVER-fileinfo php$PHPVER-pdo-sqlite php$PHPVER-ftp php-soap php-imap php-fpm php-intl php-json php-mysql php$PHPVER-pdo-mysql php-zip php-gd php-mbstring php-curl php-xml 
+
+	#php manual selection 
+	#update-alternatives --config php
+
+	update-alternatives --set php /usr/bin/php$PHPVER 
+	update-alternatives --set phar /usr/bin/phar$PHPVER 
+	update-alternatives --set phar.phar /usr/bin/phar.phar$PHPVER 
+	update-alternatives --set phpize /usr/bin/phpize$PHPVER
+	update-alternatives --set php-config /usr/bin/php-config$PHPVER
+
+
+	
+
+	
+}
+
+editPhpConfig(){
+
+
 	#edit file : nano /etc/php/8.0/apache2/php-override.ini
-
-	
-	
-	
-
-#Already
 	#display_errors = On
 	#display_startup_errors = On
 	#short_open_tag = On
@@ -184,28 +203,31 @@ installPhpFromRepo() {
 
 }
 
-installComposerWithPhp() {
-	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-	php -r "if (hash_file('SHA384', 'composer-setup.php') === '55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-	php composer-setup.php
-	php -r "unlink('composer-setup.php');"
-}
 installComposer() {
+	msg_info "Install php composer"
 	EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
 	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 	ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
 
 	if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]
 	then
-		>&2 echo 'ERROR: Invalid installer checksum'
+		msg_error 'ERROR: Invalid installer checksum'
 		rm composer-setup.php
 		exit 1
 	fi
 
-	php composer-setup.php --quiet
-	RESULT=$?
+	php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 	rm composer-setup.php
-	exit $RESULT
+	rm composer.phar
+}
+
+changeLine(){
+	local file="$1"
+	local line="$2"
+	local replace="$3"
+
+	#do file backup !!!
+
 }
 
 installComposerM1() {
@@ -251,11 +273,20 @@ catch_errors
 
 updateOS
 installDependencies
+
+installPhpSelectVersion
+
+installComposer
+
+#Im here :
+editPhpConfig
+
+
 installApache
 checkApacheConfig
-installPHP
+
 enableMods
 setPermissions
 restartApache
-installComposer
+
 cleanup
