@@ -2,7 +2,7 @@
 
 #######################################
 # install  :
-# bash -c "$(wget -qLO - https://github.com/tlissak/settings/install-apache-php.sh)"
+# bash -c "$(wget -qLO - https://github.com/tlissak/settings/raw/main/install-apache-php.sh)"
 # Bash script to install an Apache PHP stack For Debian based systems.
 # Base on https://github.com/aamnah/bash-scripts/blob/master/install/amp_debian.sh
 # Written by @AamnahAkram from http://aamnah.com
@@ -72,24 +72,29 @@ updateOS() {
 installDependencies() {
 	## Install dependencies 
 	msg_info "Installing dependencies openssl curl git zip"
-	apt-get install openssl curl git-all zip
+	apt-get -qy install openssl curl git-all zip
 	msg_ok "Install dependencies done"
 }
 installApache() {
 	# Apache
 	msg_info "Installing Apache.."	
-	apt-get -qy install apache2 apache2-doc libexpat1 ssl-cert
-	# check Apache configuration: apachectl configtest
+	apt-get -qy install apache2 apache2-doc libexpat1 ssl-cert	
 	# apache2-mpm-prefork apache2-utils 
 	msg_ok "Apache installed"
 }
 
-installPHP() {
-	# PHP and Modules
-	msg_info "Installing PHP and common Modules.. "
+checkApacheConfig() {
+	# check Apache configuration: 
+	msg_info "Check Apache configuration"	
+	apachectl configtest
+	msg_ok "Checked apache cfg"
 
-	# PHP
+}
+installPHP() {
+	# PHP and common Modules
+	msg_info "Installing PHP and common Modules.. "
 	apt-get -qy install php php-common libapache2-mod-php php-curl php-dev php-gd php-gettext php-imagick php-intl php-ps php-mbstring php-mysql php-pear php-pspell php-recode php-xml php-zip php-xsl php-mcrypt php-soap
+	msg_ok "PHP installed"
 }
 
 enableMods() {
@@ -201,6 +206,7 @@ catch_errors
 updateOS
 installDependencies
 installApache
+checkApacheConfig
 installPHP
 enableMods
 setPermissions
