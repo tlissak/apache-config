@@ -204,6 +204,9 @@ editPhpConfig(){
 }
 
 installComposer() {
+	
+	#https://getcomposer.org/doc/00-intro.md
+
 	msg_info "Install php composer"
 	EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
 	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -216,9 +219,15 @@ installComposer() {
 		exit 1
 	fi
 
-	php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+	#Install Globaly 
+	mv composer.phar /usr/local/bin/composer
+
+	#install Localy
+	#php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+	#Usage : php bin/composer
+
 	rm composer-setup.php
-	rm composer.phar
+	#rm composer.phar
 }
 
 changeLine(){
