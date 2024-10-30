@@ -1,9 +1,3 @@
-
-## [Install vsftpd](vsftpd.md)
-
-## [Install postfix](postfix.md)
-
-
 ## start as super user 
 ```
 sudo su

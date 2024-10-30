@@ -1,13 +1,10 @@
 #!/bin/sh
 
 #######################################
-# install  :
-# bash -c "$(wget -qLO - https://github.com/tlissak/settings/raw/main/install-apache-php.sh)"
-# Bash script to install an Apache PHP stack For Debian based systems.
-# Base on https://github.com/aamnah/bash-scripts/blob/master/install/amp_debian.sh
-# Written by @AamnahAkram from http://aamnah.com
-
-# In case of any errors just re-run the script. Nothing will be re-installed except for the packages with errors.
+# Bash script to install Apache PHP stack For Debian based systems.
+# login with root user
+# run simply this line :
+# bash -c "$(wget -qLO - https://github.com/tlissak/settings/raw/main/install.sh)"
 #######################################
 
 
@@ -17,7 +14,7 @@ color
 catch_errors
 #updateOS
 
-#source apache.sh
+source apache.sh
 
 #installDependencies
 #installApache
@@ -33,27 +30,16 @@ installPHPExtentions
 #setWWWPermissions
 #restartApache
 
-#source ftp.sh
-
-#installVsftpd
-#enableFtpServiceStart
-#editFtpConfig
-
 #cleanup
-
-
-#cp vhost.conf /etc/apache2/sites-available/
-
-#create website give me a name
-#create user for website
-# give permissions to this user
 
 #manuel : https://devcenter.heroku.com/articles/git
 #deployment git :https://portent.com/blog/design-dev/github-auto-deploy-setup-guide.htm
 
 
-
-#cpPhpConfigForce
+#source ftp.sh
+#installVsftpd
+#enableFtpServiceStart
+#editFtpConfig
 
 
 #Unzip Archive

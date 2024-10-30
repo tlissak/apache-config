@@ -16,9 +16,8 @@ installPHP() {
 
 	msg_info "Installing common Modules.. "
 	apt-get -qy install php-curl php-dom php-ftp php-pdo php-pdo-mysql php-fileinfo php-simplexml php-imap php-dev php-gd php-imagick php-intl php-ps php-json php-mbstring php-mysql php-pear php-pspell php-xml php-zip php-xsl php-mcrypt php-soap
-	#dpkg --configure -a
-	#dpkg --remove --force-remove-reinstreq gsfonts
 	msg_ok "common Modules installed"
+
 }
 
 
@@ -47,29 +46,42 @@ installPhpVersion() {
 	apt-get -qqy update
 
 	
-	#php manual selection 
-	#update-alternatives --config php
-
-    
 	update-alternatives --set php /usr/bin/php$PHPVER 
 	update-alternatives --set phar /usr/bin/phar$PHPVER 
 	update-alternatives --set phar.phar /usr/bin/phar.phar$PHPVER 
-
-	#update-alternatives --set phpize /usr/bin/phpize$PHPVER
-	#update-alternatives --set php-config /usr/bin/php-config$PHPVER
-
-
-	
-
 	
 }
-
 
 installPHPExtentions(){
 	apt-get -qqy install php$PHPVER php$PHPVER-common
 	apt-get -qqy install php$PHPVER-fileinfo php$PHPVER-pdo-sqlite php$PHPVER-ftp php$PHPVER-soap php$PHPVER-imap php-fpm php$PHPVER-intl php$PHPVER-json php$PHPVER-mysql php$PHPVER-pdo-mysql php$PHPVER-zip php$PHPVER-gd php$PHPVER-mbstring php$PHPVER-curl php$PHPVER-xml 
-
 }
+
+
+cpPhpConfig(){
+	input=conf/php.ini
+	output=/etc/php/$PHPVER/apache2/conf.d/php.ini
+
+	if [ ! -f $output ]; then
+		msg_info "Move php.ini to config path"
+		cp $input $output
+		msg_ok "Php.ini moved to config path"	
+	else
+		msg_info "File ${output} already Exist"		
+	fi	
+
+
+	output=/etc/php/$PHPVER/cli/conf.d/php.ini
+
+	if [ ! -f $output ]; then
+		msg_info "Move php.ini to CLI config path"
+		cp $input $output
+		msg_ok "Php.ini moved to CLI config path"	
+	else
+		msg_info "File ${output} already Exist"		
+	fi	
+}
+
 
 installComposer() {
 	
@@ -122,65 +134,4 @@ installComposerM1() {
 	#file_put_contents(./composer.lock): Failed to open stream: Permission denied
 	#do :
 	#chmod 0777 ./composer.lock
-}
-
-cpPhpConfigForce(){
-	PHPVER=8.0
-	output=/etc/php/$PHPVER/apache2/conf.d/php.ini
-	cp php.ini $output
-	output=/etc/php/$PHPVER/cli/conf.d/php.ini
-	cp php.ini $output
-}
-
-cpPhpConfig(){
-	
-	output=/etc/php/$PHPVER/apache2/conf.d/php.ini
-
-	if [ ! -f $output ]; then
-		msg_info "Move php.ini to config path"
-		cp php.ini $output
-		msg_ok "Php.ini moved to config path"	
-	else
-		msg_info "File ${output} already Exist"		
-	fi	
-
-
-	output=/etc/php/$PHPVER/cli/conf.d/php.ini
-
-	if [ ! -f $output ]; then
-		msg_info "Move php.ini to CLI config path"
-		cp php.ini $output
-		msg_ok "Php.ini moved to CLI config path"	
-	else
-		msg_info "File ${output} already Exist"		
-	fi	
-}
-
-editPhpConfig(){
-
-	
-	input="/etc/php/$PHPVER/apache2/php.ini"
-	output="/etc/php/$PHPVER/apache2/php-MODIFIED.ini"
-
-
-	if [ ! -f $output ]; then
-		msg_info "File not found!"
-	else
-		msg_info "File ${output} already Exist"
-		return
-	fi
-
-
-	sed $input -e "2s/^/\n;;;;;;;;;;;;;;;;;;;\n; MODIFIED BY SCRIPT ;\n;;;;;;;;;;;;;;;;;;;\n/" \
-	| sed  -e "s/display_errors = Off/display_errors = On/"  \
-	| sed -e "s/display_startup_errors = Off/display_startup_errors = On/"  \
-	| sed -e "s/short_open_tag = Off/short_open_tag = On/"  \
-	| sed -e "s/;max_input_vars = 1000/max_input_vars = 20000/"  \
-	| sed -e "s/expose_php = On/expose_php = Off/"  \
-	| sed -e "s/post_max_size = 8M/post_max_size = 500M/"  \
-	| sed -e "s/upload_max_filesize = 2M/upload_max_filesize = 1000M/"  \
-	| sed -e "s/;date.timezone =/date.timezone = Europe\/Paris/"  \
-	> $output
-
-
 }

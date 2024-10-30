@@ -56,3 +56,11 @@ enableApacheMods() {
 	#a2enmod curl rewrite ssl imap fileinfo gd mbstring openssl pdo_mysql pdo_sqlite soap 
 	#phpenmod mbstring mcrypt
 }
+
+
+replaceApacheDefaultSite(){
+	msg_info "Replacing apache default site.."
+	cp conf/000-default.conf /etc/apache2/sites-available/000-default.conf
+	service apache2 reload
+	msg_ok "default site config replaced"
+}
