@@ -1,16 +1,14 @@
 # APMS Config
 
-Apache PHP MariaDB 
-Ftp/Postfix Relay
+Bash script to install Apache PHP stack For Debian based systems.
+login with root user
+run simply this line :
 
-
-log in as root user 
-run 
 ```
-bash install.sh
+bash -c "$(wget -qLO - https://github.com/tlissak/settings/raw/main/install.sh)"
 ```
 
-**OLD Docs :**
+### OLD Docs :
 
 Some docs for **windows** 
 - [Windows Server](doc/WindowsServer.md)
