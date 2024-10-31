@@ -7,6 +7,9 @@
 # bash -c "$(wget -qLO - https://github.com/tlissak/settings/raw/main/install.sh)"
 #######################################
 
+wget -qLO - https://github.com/tlissak/settings/raw/main/require.sh
+wget -qLO - https://github.com/tlissak/settings/raw/main/apache.sh
+wget -qLO - https://github.com/tlissak/settings/raw/main/php.sh
 
 source require.sh
 
