@@ -29,15 +29,15 @@ installPhpVersion() {
     fi
 
 
-    php -v > /dev/null 2>&1
-    PHP_INSTALLED_VER=$?
-    if [[ $PHP_INSTALLED_VER -ne 0 ]]; then
-        msg_info 'Php is not installed'
-    else
-        msg_ok "PHP is already installed "
-        php -v
-        return   
-    fi
+#    php -v > /dev/null 2>&1
+#    PHP_INSTALLED_VER=$?
+#    if [[ $PHP_INSTALLED_VER -ne 0 ]]; then
+#        msg_info 'Php is not installed'
+#    else
+#        msg_ok "PHP is already installed "
+#        php -v
+#        return   
+#    fi
 
 
 	apt-get -qqy install apt-transport-https lsb-release ca-certificates wget
@@ -46,10 +46,15 @@ installPhpVersion() {
 	apt-get -qqy update
 
 	
+	
+	
+}
+
+selectPHPWorkingversion(){
+
 	update-alternatives --set php /usr/bin/php$PHPVER 
 	update-alternatives --set phar /usr/bin/phar$PHPVER 
 	update-alternatives --set phar.phar /usr/bin/phar.phar$PHPVER 
-	
 }
 
 installPHPExtentions(){
@@ -85,17 +90,15 @@ cpPhpConfig(){
 
 installComposer() {
 	
-	#https://getcomposer.org/doc/00-intro.md
 
-
-    /usr/local/bin/composer -v > /dev/null 2>&1
-    COMPOSER=$?
-    if [[ $COMPOSER -ne 0 ]]; then
-        msg_info 'Composer is not installed'
-    else
-        msg_ok 'Composer is already installed'
-        return        
-    fi
+#    /usr/local/bin/composer -v > /dev/null 2>&1
+#    COMPOSER=$?
+#    if [[ $COMPOSER -ne 0 ]]; then
+#        msg_info 'Composer is not installed'
+#    else
+#        msg_ok 'Composer is already installed'
+#        return        
+#    fi
 
 
 	msg_info "Install php composer"
