@@ -12,25 +12,26 @@ source require.sh
 
 color
 catch_errors
-#updateOS
+updateOS
 
 source apache.sh
 
-#installDependencies
-#installApache
-
+installDependencies
+installApache
+replaceApacheDefaultSite
 
 source php.sh
 
-installPhpVersion 8.0
+installPhpVersion 8.3
 installPHPExtentions
-#installComposer
-#cpPhpConfig
-#enableApacheMods
-#setWWWPermissions
-#restartApache
+installComposer
+cpPhpConfig
+enableApacheMods
+setWWWPermissions
 
-#cleanup
+restartApache
+
+cleanup
 
 #manuel : https://devcenter.heroku.com/articles/git
 #deployment git :https://portent.com/blog/design-dev/github-auto-deploy-setup-guide.htm
