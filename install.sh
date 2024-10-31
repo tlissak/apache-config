@@ -7,9 +7,12 @@
 # bash -c "$(wget -qLO - https://github.com/tlissak/settings/raw/main/install.sh)"
 #######################################
 
-wget -qLO - https://github.com/tlissak/settings/raw/main/require.sh
-wget -qLO - https://github.com/tlissak/settings/raw/main/apache.sh
-wget -qLO - https://github.com/tlissak/settings/raw/main/php.sh
+mkdir -p conf
+wget -qL - https://github.com/tlissak/settings/raw/main/require.sh
+wget -qL - https://github.com/tlissak/settings/raw/main/apache.sh
+wget -qL - https://github.com/tlissak/settings/raw/main/conf/000-default.conf  -P conf
+wget -qL - https://github.com/tlissak/settings/raw/main/php.sh
+wget -qL - https://github.com/tlissak/settings/raw/main/conf/php.ini -P conf
 
 source require.sh
 
