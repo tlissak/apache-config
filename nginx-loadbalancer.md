@@ -15,7 +15,7 @@ upstream backend {
 
 server {
     listen 80;
-    server_name 192.168.0.84;
+    server_name 192.168.0.84 .yourdomain.name;
     location / {
         proxy_pass http://backend;
     }
