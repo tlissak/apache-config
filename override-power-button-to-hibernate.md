@@ -1,3 +1,17 @@
+WORK 
+
+nano /etc/systemd/logind.conf
+
+Add this line :
+
+HandlePowerKey=poweroff
+
+call this or reboot 
+systemctl restart systemd-logind
+
+source : https://askubuntu.com/questions/362914/how-to-prevent-the-power-button-to-shutdown-directly-the-system
+
+DOSNT WORK : 
 1. Install acpid deamon
 ```
 apt-get -y install acpid 
