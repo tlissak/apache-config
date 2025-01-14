@@ -57,11 +57,21 @@ selectPHPWorkingversion(){
 	update-alternatives --set phar.phar /usr/bin/phar.phar$PHPVER 
 }
 
-installPHPExtentions(){
+installPHPExtentionsOld(){
 	apt-get -qqy install php$PHPVER php$PHPVER-common
 	apt-get -qqy install php$PHPVER-fileinfo php$PHPVER-pdo-sqlite php$PHPVER-ftp php$PHPVER-soap php$PHPVER-imap php-fpm php$PHPVER-intl php$PHPVER-json php$PHPVER-mysql php$PHPVER-pdo-mysql php$PHPVER-zip php$PHPVER-gd php$PHPVER-mbstring php$PHPVER-curl php$PHPVER-xml 
 }
 
+installPHPExtentions(){
+
+	apt-get -qqy install php$PHPVER php$PHPVER-common
+	apt-get -qqy install php$PHPVER-fileinfo php$PHPVER-pdo-sqlite php$PHPVER-ftp php$PHPVER-soap php$PHPVER-imap php-fpm php$PHPVER-intl  php$PHPVER-mysql php$PHPVER-pdo-mysql php$PHPVER-zip php$PHPVER-gd php$PHPVER-mbstring php$PHPVER-curl php$PHPVER-xml
+
+	# if PHP Version is 8.4 don't install php-json
+	if ["$PHPVER" != "8.4"]; then
+	  apt-get -qqy install php$PHPVER-json
+	fi
+}
 
 cpPhpConfig(){
 	input=conf/php.ini
