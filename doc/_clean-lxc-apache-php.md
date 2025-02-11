@@ -54,6 +54,7 @@ apt-get -qy install php8.4 php-common libapache2-mod-php
 
 a2dismod php8.3
 a2enmod php8.4
+a2enmod rewrite
 systemctl restart apache2
 
 
