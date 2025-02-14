@@ -60,3 +60,21 @@ systemctl restart apache2
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 ```
+
+```
+display_errors = On
+display_startup_errors = On
+short_open_tag = On
+max_input_vars = 20000
+max_input_time=-1
+max_execution_time=9000
+expose_php = Off
+post_max_size = 500M
+upload_max_filesize = 1000M
+date.timezone = Europe/Paris
+#error_reporting = ~E_DEPRECATED & E_ALL
+
+
+#cp php.ini /etc/php/8.4/apache2/conf.d/php.ini
+#cp php.ini /etc/php/8.4/cli/conf.d/php.ini
+```
