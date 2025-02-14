@@ -57,5 +57,6 @@ a2enmod php8.4
 a2enmod rewrite
 systemctl restart apache2
 
-
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 ```
