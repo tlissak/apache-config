@@ -16,6 +16,10 @@ rm -r /etc/pve/nodes/RemovalNode-Name
 ```
 this should remove the node
 
+```
+pvecm expected 1
+systemctl restart pve-cluster
+```
 
 in the RemovalNode connect with new ssh cli 
 and run the following commandes the detache it from the cluster :
