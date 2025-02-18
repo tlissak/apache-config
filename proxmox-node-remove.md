@@ -12,6 +12,7 @@ pvecm nodes
 then run 
 ```
 pvecm delnode "RemovalNode-Name"
+rm -r /etc/pve/nodes/RemovalNode-Name
 ```
 this should remove the node
 
