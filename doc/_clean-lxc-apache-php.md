@@ -78,3 +78,9 @@ date.timezone = Europe/Paris
 #cp php.ini /etc/php/8.4/apache2/conf.d/php.ini
 #cp php.ini /etc/php/8.4/cli/conf.d/php.ini
 ```
+
+```
+sudo chown -R www-data:www-data /var/www/html
+sudo chmod -R g+rw /var/www/html
+```
+
